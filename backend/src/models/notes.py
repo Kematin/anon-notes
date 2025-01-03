@@ -17,4 +17,5 @@ class NoteBase(BaseModel):
 
 
 class Note(NoteBase, Document):
-    pass
+    class Settings:
+        name = "notes_collection"

@@ -32,4 +32,5 @@ async def get_note(id: str):
 @router.post("/")
 async def create_note(note_body: NoteBase):
     worker = DatabaseWorker(Note)
-    await worker.create(text=crypto.encrypt_content(note_body.text))
+    note = await worker.create(text=crypto.encrypt_content(note_body.text))
+    return note

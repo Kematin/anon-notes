@@ -11,9 +11,10 @@ class DatabaseWorker(Generic[TModel]):
     def __init__(self, model: type[TModel]):
         self.model = model
 
-    async def create(self, **kwargs) -> None:
+    async def create(self, **kwargs) -> TModel:
         new_document: TModel = self.model(**kwargs)
         await new_document.create()
+        return new_document
 
     async def get(self, id: PydanticObjectId) -> Optional[TModel]:
         doc = await self.model.get(id)

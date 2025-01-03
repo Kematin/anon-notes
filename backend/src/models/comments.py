@@ -1,20 +1,22 @@
 from datetime import datetime
 
 from beanie import Document
+from pydantic import BaseModel, Field
 
 
-class Comment(Document):
+class CommentBase(BaseModel):
     username: str = "Anon"
     text: str
-    created_at: datetime = datetime.now
-
-    class Settings:
-        name = "comments_collection"
+    created_at: datetime = Field(default_factory=datetime.now)
 
     class Config:
         json_schema_extra = {
             "example": {
                 "text": "This is simple comment!",
-                "created_at": datetime.now(),
             }
         }
+
+
+class Comment(CommentBase, Document):
+    class Settings:
+        name = "comments_collection"
