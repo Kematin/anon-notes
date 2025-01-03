@@ -1,25 +1,23 @@
-from typing import List, Optional
+from typing import Generic, List, Optional, TypeVar
 
 from beanie import Document, PydanticObjectId
 from loguru import logger
 from pydantic import BaseModel
 
+TModel = TypeVar("TModel", bound="Document")
 
-class DatabaseWorker[TModel: Document]:
-    def __init__(self, model: TModel):
+
+class DatabaseWorker(Generic[TModel]):
+    def __init__(self, model: type[TModel]):
         self.model = model
 
     async def create(self, **kwargs) -> None:
-        logger.debug(kwargs)
         new_document: TModel = self.model(**kwargs)
         await new_document.create()
 
     async def get(self, id: PydanticObjectId) -> Optional[TModel]:
         doc = await self.model.get(id)
-        if doc:
-            return doc
-        else:
-            return False
+        return doc
 
     async def get_all(self) -> List[TModel]:
         docs = await self.model.find_all().to_list()
@@ -28,7 +26,7 @@ class DatabaseWorker[TModel: Document]:
     async def update(self, id: PydanticObjectId, body: BaseModel) -> Optional[TModel]:
         doc = await self.get(id)
         if not doc:
-            return False
+            return None
 
         des_body = body.model_dump()
         des_body = {key: value for key, value in des_body.items() if value is not None}

@@ -1,7 +1,6 @@
 import os
 
 from cryptography.fernet import Fernet, InvalidToken
-from loguru import logger
 
 from config import BASE_DIR
 from src.exceptions import CryptoException

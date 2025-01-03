@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException, status
 from loguru import logger
 
 from src.models.notes import Note, NoteBase
+from src.service import crypto
 from src.utils.database import DatabaseWorker
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
@@ -24,12 +25,10 @@ async def get_note(id: str):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="note not found."
         )
-    return note
+    return crypto.decrypt_content(note.text)
 
 
 @router.post("/")
 async def create_note(note_body: NoteBase):
     worker = DatabaseWorker(Note)
-    new_doc = Note(text="YO")
-    new_doc.create()
-    await worker.create(**note_body.model_dump())
+    await worker.create(text=crypto.encrypt_content(note_body.text))
