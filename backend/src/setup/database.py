@@ -1,7 +1,8 @@
 from beanie import init_beanie
-from config import config
-from models import models
 from motor import motor_asyncio
+
+from config import config
+from src.models import models
 
 
 async def init_db() -> motor_asyncio.AsyncIOMotorClient:

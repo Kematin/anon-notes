@@ -1,11 +1,12 @@
 from contextlib import asynccontextmanager
 
 import uvicorn
-from config import config
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import routers
-from setup import configure_logger, init_db
+
+from config import config
+from src.routers import routers
+from src.setup import configure_logger, init_db
 
 
 @asynccontextmanager

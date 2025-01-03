@@ -1,10 +1,13 @@
+from pathlib import Path
 from typing import List
 
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+BASE_DIR = Path(__file__).resolve().parent
 
-def get_model_config(env_dir: str = "../.env"):
+
+def get_model_config(env_dir: str = f"{BASE_DIR}/.env"):
     config = SettingsConfigDict(
         env_file=env_dir, env_file_encoding="utf-8", extra="ignore"
     )

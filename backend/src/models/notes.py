@@ -12,10 +12,9 @@ class NoteBase(BaseModel):
         json_schema_extra = {
             "example": {
                 "text": "This is a secret note! (encrypted)",
-                "created_at": datetime.now(),
             }
         }
 
 
 class Note(NoteBase, Document):
-    _id: str
+    pass

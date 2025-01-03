@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from beanie import Document, PydanticObjectId
+from loguru import logger
 from pydantic import BaseModel
 
 
@@ -9,7 +10,9 @@ class DatabaseWorker[TModel: Document]:
         self.model = model
 
     async def create(self, **kwargs) -> None:
-        pass
+        logger.debug(kwargs)
+        new_document: TModel = self.model(**kwargs)
+        await new_document.create()
 
     async def get(self, id: PydanticObjectId) -> Optional[TModel]:
         doc = await self.model.get(id)
