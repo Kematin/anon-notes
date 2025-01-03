@@ -1,8 +1,9 @@
 import logging
 import sys
 
-from config import config
 from loguru import logger
+
+from config import config
 
 
 class LoguruInterceptHandler(logging.Handler):
@@ -20,6 +21,11 @@ class LoguruInterceptHandler(logging.Handler):
     def emit(self, record):
         logger_opt = logger.opt(depth=6, exception=record.exc_info)
         logger_opt.log(self._get_level(record), record.getMessage())
+
+
+def disable_mongo_debug_logs():
+    mongo_logger = logging.getLogger("pymongo")
+    mongo_logger.setLevel(logging.INFO)
 
 
 def configure_logger(capture_exceptions: bool = False, subfolder: str = None) -> None:
@@ -58,3 +64,4 @@ def configure_logger(capture_exceptions: bool = False, subfolder: str = None) ->
 
     level = logging.DEBUG if config.debug else logging.INFO
     logging.basicConfig(handlers=[LoguruInterceptHandler()], level=level)
+    disable_mongo_debug_logs()

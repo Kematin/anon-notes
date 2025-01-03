@@ -1,16 +1,21 @@
 from datetime import datetime
 
 from beanie import Document
+from pydantic import BaseModel, Field
 
 
-class Note(Document):
+class NoteBase(BaseModel):
     text: str
-    created_at: datetime = datetime.now
-
-    class Settings:
-        name = "notes_collection"
+    created_at: datetime = Field(default_factory=datetime.now)
 
     class Config:
-        schema_extra = {
-            "example": {"text": "This is secret note!", "created_at": datetime.now()}
+        json_schema_extra = {
+            "example": {
+                "text": "This is a secret note! (encrypted)",
+                "created_at": datetime.now(),
+            }
         }
+
+
+class Note(NoteBase, Document):
+    _id: str
