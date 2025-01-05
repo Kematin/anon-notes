@@ -43,11 +43,17 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Install Deps
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Add Poetry to PATH
+        run: echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
         working-directory: backend
-        run: pip install pytest
+        run: poetry install
 
       - name: Run tests
         working-directory: backend
-        run: pytest src/tests
-
+        run: poetry run pytest src/tests
