@@ -5,3 +5,4 @@ __pycache__
 logs
 *.key
 .pytest_cache
+poetry.lock

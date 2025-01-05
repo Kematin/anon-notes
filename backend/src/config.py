@@ -1,10 +1,12 @@
+from functools import lru_cache
 from pathlib import Path
 from typing import List
 
-from pydantic import Field, SecretStr
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
+from pydantic import SecretStr
+from pydantic_settings import BaseSettings
+from pydantic_settings import SettingsConfigDict
 
-__CONFIG = None
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -44,10 +46,6 @@ class Settings(BaseSettings):
     model_config = get_model_config()
 
 
+@lru_cache()
 def get_config():
-    global __CONFIG
-
-    if __CONFIG is None:
-        __CONFIG = Settings()
-
-    return __CONFIG
+    return Settings()
