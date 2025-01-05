@@ -46,7 +46,8 @@ def configure_logger(capture_exceptions: bool = False, subfolder: str = None) ->
     logger.add(
         sys.stdout,
         colorize=True,
-        format="<green>{time:YYYY-MM-DD at HH:mm:ss}</green> | <level>{level}</level> | {file}:{line} | "
+        format="<green>{time:YYYY-MM-DD at HH:mm:ss}</green> | "
+        + "<level>{level}</level> | {file}:{line} | "
         "{message}",
         level=level,
     )

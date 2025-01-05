@@ -1,6 +1,4 @@
-from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException, status
-from loguru import logger
 
 from models.notes import Note, NoteBase
 from service import crypto

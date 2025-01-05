@@ -1,7 +1,6 @@
 from typing import Generic, List, Optional, TypeVar
 
 from beanie import Document, PydanticObjectId
-from loguru import logger
 from pydantic import BaseModel
 
 TModel = TypeVar("TModel", bound="Document")

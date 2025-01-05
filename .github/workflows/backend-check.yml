@@ -22,25 +22,32 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-
-      - name: Add Poetry to PATH
-        run: echo "${HOME}/.local/bin" >> $GITHUB_PATH
-
-      - name: Install dependencies
+      - name: Install Deps
         working-directory: backend
-        run: poetry install
+        run: pip install flake8
 
       - name: Lint with flake8
         working-directory: backend
-        run: |
-          poetry run pip install flake8
-          poetry run flake8 .
+        run: flake8 src
+
+    
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install Deps
+        working-directory: backend
+        run: pip install pytest
 
       - name: Run tests
         working-directory: backend
-        run: poetry run pytest
+        run: pytest src/tests
 
-    
