@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from src.models.comments import Comment, CommentBase
-from src.utils.database import DatabaseWorker
+from models.comments import Comment, CommentBase
+from utils.database import DatabaseWorker
 
 router = APIRouter(prefix="/comments", tags=["Comments"])
 

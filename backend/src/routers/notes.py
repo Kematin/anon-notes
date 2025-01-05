@@ -2,9 +2,9 @@ from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException, status
 from loguru import logger
 
-from src.models.notes import Note, NoteBase
-from src.service import crypto
-from src.utils.database import DatabaseWorker
+from models.notes import Note, NoteBase
+from service import crypto
+from utils.database import DatabaseWorker
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
 

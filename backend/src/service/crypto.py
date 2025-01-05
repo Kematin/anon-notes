@@ -3,7 +3,7 @@ import os
 from cryptography.fernet import Fernet, InvalidToken
 
 from config import BASE_DIR
-from src.exceptions import CryptoException
+from exceptions import CryptoException
 
 __default_secret_key = f"{BASE_DIR}/secret.key"
 

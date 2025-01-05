@@ -3,8 +3,8 @@ import os
 import pytest
 from cryptography.fernet import Fernet
 
-from src.exceptions import CryptoException
-from src.service.crypto import (
+from exceptions import CryptoException
+from service.crypto import (
     decrypt_content,
     encrypt_content,
     get_secret_key,
