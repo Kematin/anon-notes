@@ -31,7 +31,15 @@ class Settings(BaseSettings):
 
     origins: List[str] = Field(alias="API_ORIGINS")
 
-    db: DBSettings = DBSettings()
+    _db: DBSettings = None
+
+    model_config = get_model_config()
+
+    @property
+    def db(self) -> DBSettings:
+        if self._db is None:
+            self._db = DBSettings()
+        return self._db
 
     model_config = get_model_config()
 
