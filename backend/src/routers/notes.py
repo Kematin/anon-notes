@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
+from loguru import logger
 
 from models.notes import Note, NoteBase
 from service import crypto
@@ -9,6 +10,7 @@ router = APIRouter(prefix="/notes", tags=["Notes"])
 
 @router.get("/")
 async def get_all_notes():
+    logger.debug("get all notes")
     worker = DatabaseWorker(Note)
     notes = await worker.get_all()
     return notes
