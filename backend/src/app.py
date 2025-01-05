@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from config import config
+from config import get_config
 from routers import routers
 from setup import configure_logger, init_db
 
@@ -16,6 +16,8 @@ async def lifespan(app: FastAPI):
     yield
     client.close()
 
+
+config = get_config()
 
 app = FastAPI(lifespan=lifespan, title="Notes Backend")
 

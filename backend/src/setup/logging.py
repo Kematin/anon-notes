@@ -3,7 +3,7 @@ import sys
 
 from loguru import logger
 
-from config import config
+from config import get_config
 
 
 class LoguruInterceptHandler(logging.Handler):
@@ -29,6 +29,7 @@ def disable_mongo_debug_logs():
 
 
 def configure_logger(capture_exceptions: bool = False, subfolder: str = None) -> None:
+    config = get_config()
     logger.remove()
 
     level = "DEBUG" if config.debug else "INFO"
