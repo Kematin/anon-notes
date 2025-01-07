@@ -1,17 +1,17 @@
 from contextlib import asynccontextmanager
 
 import uvicorn
+from config import get_config
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from config import get_config
 from routers import routers
-from setup import configure_logger, init_db
+from setup import configure_logger
+from setup import init_db
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    configure_logger()
+    configure_logger(subfolder="fastapi")
     client = await init_db()
     yield
     client.close()

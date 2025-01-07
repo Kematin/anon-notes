@@ -1,9 +1,12 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter
+from fastapi import HTTPException
+from fastapi import status
 from loguru import logger
-
-from models.notes import Note, NoteBase
+from models.notes import Note
+from models.notes import NoteBase
 from service import crypto
 from utils.database import DatabaseWorker
+from worker import delete_note_task
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
 
@@ -25,8 +28,9 @@ async def get_note(id: str):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="note not found."
         )
-    await worker.delete(id)
-    return crypto.decrypt_content(note.text)
+    decrypted_content = crypto.decrypt_content(note.text)
+    delete_note_task.delay(id)
+    return decrypted_content
 
 
 @router.post("/")
