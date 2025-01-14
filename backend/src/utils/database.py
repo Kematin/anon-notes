@@ -1,6 +1,10 @@
-from typing import Generic, List, Optional, TypeVar
+from typing import Generic
+from typing import List
+from typing import Optional
+from typing import TypeVar
 
-from beanie import Document, PydanticObjectId
+from beanie import Document
+from beanie import PydanticObjectId
 from pydantic import BaseModel
 
 TModel = TypeVar("TModel", bound="Document")
@@ -19,8 +23,8 @@ class DatabaseWorker(Generic[TModel]):
         doc = await self.model.get(id)
         return doc
 
-    async def get_all(self) -> List[TModel]:
-        docs = await self.model.find_all().to_list()
+    async def get_all(self, skip: int = 0, limit: int = 100) -> List[TModel]:
+        docs = await self.model.find_all().skip(skip).limit(limit).to_list()
         return docs
 
     async def update(self, id: PydanticObjectId, body: BaseModel) -> Optional[TModel]:
