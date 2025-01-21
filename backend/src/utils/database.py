@@ -1,10 +1,6 @@
-from typing import Generic
-from typing import List
-from typing import Optional
-from typing import TypeVar
+from typing import Generic, List, Optional, TypeVar
 
-from beanie import Document
-from beanie import PydanticObjectId
+from beanie import Document, PydanticObjectId
 from pydantic import BaseModel
 
 TModel = TypeVar("TModel", bound="Document")

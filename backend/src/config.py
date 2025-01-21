@@ -2,11 +2,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import List
 
-from celery import Celery
-from pydantic import Field
-from pydantic import SecretStr
-from pydantic_settings import BaseSettings
-from pydantic_settings import SettingsConfigDict
+from pydantic import Field, SecretStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from redis import Redis
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,17 +28,7 @@ class CelerySettings(BaseSettings):
     host: str = Field(alias="CELERY_HOST", default="localhost")
     port: str = Field(alias="CELERY_PORT", default=6379)
 
-    _worker: Celery = None
     _redis: Redis = None
-
-    @property
-    def worker(self) -> Celery:
-        if self._worker is None:
-            celery = Celery("worker")
-            celery.conf.broker_url = f"{self.broker}://{self.host}:{self.port}"
-            celery.conf.result_backend = f"{self.broker}://{self.host}:{self.port}"
-            self._worker = celery
-        return self._worker
 
     @property
     def redis(self) -> Redis:
