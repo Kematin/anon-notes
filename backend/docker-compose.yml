@@ -12,10 +12,7 @@ services:
       - mongo
       - celery
     env_file:
-      - .env
-    environment:
-      - DB_HOST=mongo
-      - DB_PORT=27017
+      - .env.prod
     networks:
       - note_network
     restart: always
@@ -48,10 +45,7 @@ services:
       - mongo
     command: celery -A worker.celery worker --loglevel=info
     env_file:
-      - .env
-    environment:
-      - CELERY_HOST=redis
-      - CELERY_PORT=6379
+      - .env.prod
     networks:
       - note_network
     restart: always

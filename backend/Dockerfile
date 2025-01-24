@@ -14,8 +14,11 @@ WORKDIR /app
 COPY pyproject.toml /app
 RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-root
 
-COPY src /app
 COPY secret.key /app
+
+WORKDIR /app/src
+
+COPY src /app/src/
 
 EXPOSE 8000
 
