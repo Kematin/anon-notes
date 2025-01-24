@@ -9,12 +9,8 @@ from setup import configure_logger
 
 configure_logger(subfolder="celery")
 config = get_config()
-celery_conf = config.celery
-celery = Celery("worker")
-celery.conf.broker_url = f"{celery_conf.broker}://{celery_conf.host}:{celery_conf.port}"
-celery.conf.result_backend = (
-    f"{celery_conf.broker}://{celery_conf.host}:{celery_conf.port}"
-)
+celery = Celery(__name__)
+celery.conf.update(broker_url=config.celery.url, result_backend=config.celery.url)
 
 
 @celery.task(name="delete_note")

@@ -24,7 +24,6 @@ class MiscSettings(BaseSettings):
 
 
 class CelerySettings(BaseSettings):
-    broker: str = Field(alias="CELERY_BROKER", default="redis")
     host: str = Field(alias="CELERY_HOST", default="localhost")
     port: str = Field(alias="CELERY_PORT", default=6379)
 
@@ -35,6 +34,11 @@ class CelerySettings(BaseSettings):
         if self._redis is None:
             self._redis = Redis(host=self.host, port=self.port, decode_responses=True)
         return self._redis
+
+    @property
+    def url(self) -> str:
+        url = f"redis://{self.host}:{self.port}"
+        return url
 
     model_config = get_model_config()
 
