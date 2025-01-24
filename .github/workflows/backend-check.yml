@@ -3,10 +3,10 @@ name: BackendCheck
 on:
     push:
         paths:
-          - 'backend/**' 
+          - 'backend/**'
     pull_request:
         paths:
-          - 'backend/**' 
+          - 'backend/**'
 
 
 jobs:
@@ -30,10 +30,14 @@ jobs:
         working-directory: backend
         run: flake8 src
 
-    
+
   tests:
     runs-on: ubuntu-latest
     needs: [lint]
+
+    env:
+      SECRET_KEY: "Secret"
+      API_ORIGINS: '["*"]'
 
     steps:
       - name: Checkout
