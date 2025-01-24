@@ -17,10 +17,11 @@ cryptography = "^44.0.0"
 celery = "^5.4.0"
 redis = "^5.2.1"
 
-
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
 pre-commit = "^4.0.1"
+httpx = "^0.28.1"
+pytest-asyncio = "^0.25.2"
 
 [build-system]
 requires = ["poetry-core"]
