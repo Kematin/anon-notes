@@ -1,4 +1,3 @@
-from functools import lru_cache
 from pathlib import Path
 from typing import List
 
@@ -6,7 +5,7 @@ from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from redis import Redis
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 def get_model_config(env_dir: str = f"{BASE_DIR}/.env"):
@@ -17,7 +16,6 @@ def get_model_config(env_dir: str = f"{BASE_DIR}/.env"):
 
 
 class MiscSettings(BaseSettings):
-    # In minutes
     delete_time: int = Field(alias="DELETE_TIME")
 
     model_config = get_model_config()
@@ -86,6 +84,4 @@ class Settings(BaseSettings):
     model_config = get_model_config()
 
 
-@lru_cache()
-def get_config():
-    return Settings()
+CONFIG = Settings()

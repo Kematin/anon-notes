@@ -3,7 +3,7 @@ import sys
 
 from loguru import logger
 
-from config import get_config
+from src.core.config import CONFIG
 
 
 class LoguruInterceptHandler(logging.Handler):
@@ -29,14 +29,16 @@ def disable_mongo_debug_logs():
 
 
 def configure_logger(capture_exceptions: bool = False, subfolder: str = None) -> None:
-    config = get_config()
     logger.remove()
 
-    level = "DEBUG" if config.debug else "INFO"
+    level = "DEBUG" if CONFIG.debug else "INFO"
+    logging_level = logging.DEBUG if CONFIG.debug else logging.INFO
+
     log_format = "log_{time:YYYY-MM-DD}.log"
+    subdirectory = "logs" if not subfolder else f"logs/{subfolder}"
 
     logger.add(
-        f"logs/{log_format}" if not subfolder else f"logs/{subfolder}/{log_format}",
+        f"{subdirectory}/{log_format}",
         rotation="12:00",
         format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {file}:{line} | {message}",
         level="INFO",
@@ -54,9 +56,7 @@ def configure_logger(capture_exceptions: bool = False, subfolder: str = None) ->
     )
     if capture_exceptions:
         logger.add(
-            f"logs/errors/error_{log_format}"
-            if not subfolder
-            else f"logs/{subfolder}/errors/error_{log_format}",
+            f"{subdirectory}/errors/error_{log_format}",
             rotation="12:00",
             format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {file}:{line} | {message}",
             level="ERROR",
@@ -64,6 +64,5 @@ def configure_logger(capture_exceptions: bool = False, subfolder: str = None) ->
             compression="zip",
         )
 
-    level = logging.DEBUG if config.debug else logging.INFO
-    logging.basicConfig(handlers=[LoguruInterceptHandler()], level=level)
+    logging.basicConfig(handlers=[LoguruInterceptHandler()], level=logging_level)
     disable_mongo_debug_logs()

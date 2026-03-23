@@ -1,28 +1,29 @@
-[tool.poetry]
+[project]
 name = "notes"
 version = "0.1.0"
 description = ""
-authors = ["kematin <kematin@inbox.ru>"]
-readme = "README.md"
+requires-python = "==3.13.2"
+dependencies = [
+    "fastapi>=0.115.6",
+    "uvicorn>=0.34.0",
+    "pydantic>=2.10.4",
+    "pydantic-settings>=2.7.0",
+    "loguru>=0.7.3",
+    "beanie>=1.28.0",
+    "cryptography>=44.0.0",
+    "celery>=5.4.0",
+    "redis>=5.2.1",
+    "motor>=3.7.1",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-fastapi = "^0.115.6"
-uvicorn = "^0.34.0"
-pydantic = "^2.10.4"
-pydantic-settings = "^2.7.0"
-loguru = "^0.7.3"
-beanie = "^1.28.0"
-cryptography = "^44.0.0"
-celery = "^5.4.0"
-redis = "^5.2.1"
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "pre-commit>=4.0.1",
+    "httpx>=0.28.1",
+    "pytest-asyncio>=0.25.2",
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.4"
-pre-commit = "^4.0.1"
-httpx = "^0.28.1"
-pytest-asyncio = "^0.25.2"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff]
+line-length = 89
+indent-width = 4
