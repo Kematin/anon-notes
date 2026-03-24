@@ -34,7 +34,14 @@ class NoteCreateSchema(_BaseNoteSchema):
 
 
 class NoteUpdateSchema(BaseModel):
-    id: UUID
-    expires_at: Optional[datetime]
-    destroy_after_read: Optional[bool]
+    expires_at: Optional[datetime] = None
+    destroy_after_read: Optional[bool] = None
     timing_for_destroy: Optional[TimingForDestroy] = None
+
+    @model_validator(mode="after")
+    def check_existing_values(self) -> Self:
+        error_message = "Nothing to update."
+        if self.expires_at is self.destroy_after_read is self.timing_for_destroy is None:
+            raise ValueError(error_message)
+
+        return self
