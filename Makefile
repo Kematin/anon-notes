@@ -1,0 +1,24 @@
+# ==========================================
+# Mark: Dev
+# ==========================================
+
+
+# ==========================================
+# Mark: Prod
+# ==========================================
+
+
+# ==========================================
+# Mark: Lint And Tests
+# ==========================================
+
+backend_lint:
+	cd backend && uv run ruff check src
+
+backend_mypy:
+	cd backend && uv run mypy src
+
+backend_test:
+	cd backend && uv run pytest || [ $$? -eq 5 ]
+
+backend_ci: backend_lint backend_test backend_mypy

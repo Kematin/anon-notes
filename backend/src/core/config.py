@@ -1,9 +1,8 @@
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from redis import Redis
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -17,26 +16,6 @@ def get_model_config(env_dir: str = f"{BASE_DIR}/.env"):
 
 class MiscSettings(BaseSettings):
     delete_time: int = Field(alias="DELETE_TIME")
-
-    model_config = get_model_config()
-
-
-class CelerySettings(BaseSettings):
-    host: str = Field(alias="CELERY_HOST", default="localhost")
-    port: str = Field(alias="CELERY_PORT", default=6379)
-
-    _redis: Redis = None
-
-    @property
-    def redis(self) -> Redis:
-        if self._redis is None:
-            self._redis = Redis(host=self.host, port=self.port, decode_responses=True)
-        return self._redis
-
-    @property
-    def url(self) -> str:
-        url = f"redis://{self.host}:{self.port}"
-        return url
 
     model_config = get_model_config()
 
@@ -57,9 +36,8 @@ class Settings(BaseSettings):
 
     origins: List[str] = Field(alias="API_ORIGINS")
 
-    _db: DBSettings = None
-    _celery: CelerySettings = None
-    _misc: MiscSettings = None
+    _db: Optional[DBSettings] = None
+    _misc: Optional[MiscSettings] = None
 
     model_config = get_model_config()
 
@@ -70,12 +48,6 @@ class Settings(BaseSettings):
         return self._db
 
     @property
-    def celery(self) -> CelerySettings:
-        if self._celery is None:
-            self._celery = CelerySettings()
-        return self._celery
-
-    @property
     def misc(self) -> MiscSettings:
         if self._misc is None:
             self._misc = MiscSettings()
@@ -84,4 +56,4 @@ class Settings(BaseSettings):
     model_config = get_model_config()
 
 
-CONFIG = Settings()
+CONFIG = Settings()  # type: ignore[call-arg]

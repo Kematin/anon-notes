@@ -5,9 +5,10 @@ from uuid import UUID
 from fastapi import HTTPException, status
 from loguru import logger
 
+from src.core.exceptions import ServiceError
 from src.crud.note import NoteCrud
 from src.enums.note import TimingForDestroy
-from src.model.note import Note
+from src.models.note import Note
 from src.schemas.note import NoteCreateSchema, NoteSchema, NoteUpdateSchema
 
 
@@ -19,7 +20,7 @@ class NoteDestroyer:
     async def destroy(self) -> None:
         if self.note.destroy_after_read:
             await self._destroy_instantly(self.note)
-        else:
+        elif self.note.timing_for_destroy:
             await self._destroy_after_timing(self.note)
 
     async def _destroy_instantly(self, note: Note) -> None:
@@ -30,6 +31,11 @@ class NoteDestroyer:
             logger.info(f"Note ({self.note.id}) already have expires_at field")
             return
 
+        if note.timing_for_destroy is None:
+            raise ServiceError(
+                f"Note ({self.note.id}) doesnt have timing_for_destroy field"
+            )
+
         update_schema = NoteUpdateSchema(
             expires_at=self._set_expires_at(note.timing_for_destroy)
         )
@@ -37,7 +43,7 @@ class NoteDestroyer:
             instance_id=note.id, update_data=update_schema, return_type=None
         )
 
-    def _set_expires_at(cls, timing: TimingForDestroy) -> datetime:
+    def _set_expires_at(self, timing: TimingForDestroy) -> datetime:
         match timing:
             case TimingForDestroy.MINUTE:
                 minutes = 1

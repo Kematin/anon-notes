@@ -1,15 +1,17 @@
 from typing import Any, Dict, Generic, Literal, Optional, Type, TypeVar, overload
 from uuid import UUID
 
-from beanie import Document
 from pydantic import BaseModel
 
-ModelType = TypeVar("DocumentType", bound=Document)
-CreateShemaType = TypeVar("CreateSchemaType", bound=BaseModel)
-UpdateShemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
+from src.core.exceptions import DatabaseError
+from src.models.base import BaseDocument
+
+ModelType = TypeVar("ModelType", bound=BaseDocument)
+CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
+UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
-class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
+class BaseCrud(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     model: Type[ModelType]
 
     @classmethod
@@ -29,7 +31,7 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
     @classmethod
     async def create(
         cls,
-        create_data: CreateShemaType | Dict[str, Any],
+        create_data: CreateSchemaType | Dict[str, Any],
         return_type: Literal["model"] = "model",
     ) -> ModelType: ...
 
@@ -37,7 +39,7 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
     @classmethod
     async def create(
         cls,
-        create_data: CreateShemaType | Dict[str, Any],
+        create_data: CreateSchemaType | Dict[str, Any],
         return_type: Literal["id_uuid"],
     ) -> UUID: ...
 
@@ -45,7 +47,7 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
     @classmethod
     async def create(
         cls,
-        create_data: CreateShemaType | Dict[str, Any],
+        create_data: CreateSchemaType | Dict[str, Any],
         return_type: Literal["id_int"],
     ) -> int: ...
 
@@ -53,15 +55,15 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
     @classmethod
     async def create(
         cls,
-        create_data: CreateShemaType | Dict[str, Any],
+        create_data: CreateSchemaType | Dict[str, Any],
         return_type: None,
     ) -> None: ...
 
     @classmethod
     async def create(
         cls,
-        create_data: CreateShemaType | Dict[str, Any],
-        return_type: Optional[Literal["model", "id_int", "id_uuid"]],
+        create_data: CreateSchemaType | Dict[str, Any],
+        return_type: Optional[Literal["model", "id_int", "id_uuid"]] = "model",
     ) -> Optional[ModelType | UUID | int]:
         if isinstance(create_data, dict):
             create_data = create_data
@@ -78,7 +80,7 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
     async def update(
         cls,
         instance_id: UUID | int,
-        update_data: UpdateShemaType | Dict[str, Any],
+        update_data: UpdateSchemaType | Dict[str, Any],
         return_type: Literal["model"] = "model",
     ) -> ModelType: ...
 
@@ -87,7 +89,7 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
     async def update(
         cls,
         instance_id: UUID | int,
-        update_data: UpdateShemaType | Dict[str, Any],
+        update_data: UpdateSchemaType | Dict[str, Any],
         return_type: Literal["id_uuid"],
     ) -> UUID: ...
 
@@ -96,7 +98,7 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
     async def update(
         cls,
         instance_id: UUID | int,
-        update_data: UpdateShemaType | Dict[str, Any],
+        update_data: UpdateSchemaType | Dict[str, Any],
         return_type: Literal["id_int"],
     ) -> int: ...
 
@@ -105,7 +107,7 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
     async def update(
         cls,
         instance_id: UUID | int,
-        update_data: UpdateShemaType | Dict[str, Any],
+        update_data: UpdateSchemaType | Dict[str, Any],
         return_type: None,
     ) -> None: ...
 
@@ -113,8 +115,8 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
     async def update(
         cls,
         instance_id: UUID | int,
-        update_data: UpdateShemaType | Dict[str, Any],
-        return_type: Optional[ModelType | UUID | int],
+        update_data: UpdateSchemaType | Dict[str, Any],
+        return_type: Optional[Literal["model", "id_int", "id_uuid"]] = "model",
     ) -> Optional[ModelType | UUID | int]:
         if isinstance(update_data, dict):
             update_data = update_data
@@ -128,7 +130,10 @@ class BaseCrud(Generic[ModelType, CreateShemaType, UpdateShemaType]):
 
     @classmethod
     async def get_one(cls, instance_id: UUID | int) -> ModelType:
-        return await cls.model.get(document_id=instance_id)
+        instance = await cls.model.get(document_id=instance_id)
+        if instance is None:
+            raise DatabaseError(f"{cls.model.__name__} with id {instance_id} not found")
+        return instance
 
     @classmethod
     async def delete_instance(cls, instance: ModelType) -> None:

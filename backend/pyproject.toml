@@ -22,8 +22,26 @@ dev = [
     "pre-commit>=4.0.1",
     "httpx>=0.28.1",
     "pytest-asyncio>=0.25.2",
+    "ruff>=0.15.7",
+    "mypy>=1.19.1",
 ]
 
 [tool.ruff]
 line-length = 89
 indent-width = 4
+
+[tool.mypy]
+mypy_path = "backend"
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = "src.core.config"
+disable_error_code = ["call-arg"]
+
+[[tool.mypy.overrides]]
+module = "src.core.db"
+disable_error_code = ["arg-type"]
+
+[[tool.mypy.overrides]]
+module = "src.models.*"
+disable_error_code = ["assignment"]

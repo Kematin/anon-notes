@@ -1,5 +1,6 @@
 import logging
 import sys
+from typing import Optional
 
 from loguru import logger
 
@@ -28,7 +29,9 @@ def disable_mongo_debug_logs():
     mongo_logger.setLevel(logging.INFO)
 
 
-def configure_logger(capture_exceptions: bool = False, subfolder: str = None) -> None:
+def configure_logger(
+    capture_exceptions: bool = False, subfolder: Optional[str] = None
+) -> None:
     logger.remove()
 
     level = "DEBUG" if CONFIG.debug else "INFO"

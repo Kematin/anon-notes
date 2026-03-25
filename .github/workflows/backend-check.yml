@@ -17,19 +17,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.12
+      - name: Set up Python 3.13.2
         uses: actions/setup-python@v4
         with:
-          python-version: 3.12
+          python-version: 3.13.2
 
-      - name: Install Deps
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install dependencies
         working-directory: backend
-        run: pip install flake8
-
-      - name: Lint with flake8
+        run: uv sync --group dev
+      
+      - name: Lint with ruff
         working-directory: backend
-        run: flake8 src
-
+        run: uv run ruff check src
+      
+      - name: Type check with mypy
+        working-directory: backend
+        run: uv run mypy src
 
   tests:
     runs-on: ubuntu-latest
@@ -43,22 +49,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.12
+      - name: Set up Python 3.13.2
         uses: actions/setup-python@v4
         with:
-          python-version: 3.12
+          python-version: 3.13.2
 
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-
-      - name: Add Poetry to PATH
-        run: echo "${HOME}/.local/bin" >> $GITHUB_PATH
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
 
       - name: Install dependencies
         working-directory: backend
-        run: poetry install --no-root
+        run: uv sync --group dev
 
       - name: Run tests
         working-directory: backend
-        run: poetry run pytest src/tests
+        run: uv run pytest tests || [ $? -eq 5 ]

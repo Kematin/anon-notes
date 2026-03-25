@@ -1,5 +1,5 @@
 from src.crud.base import BaseCrud
-from src.model.note import Note
+from src.models.note import Note
 from src.schemas.note import NoteCreateSchema, NoteUpdateSchema
 
 
