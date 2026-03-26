@@ -22,3 +22,9 @@ backend_test:
 	cd backend && uv run pytest || [ $$? -eq 5 ]
 
 backend_ci: backend_lint backend_test backend_mypy
+
+backend_coverage_html: 
+	cd backend && uv run pytest tests --cov=src --cov-report=html
+
+backend_coverage: 
+	cd backend && uv run pytest tests --cov=src --cov-report=term-missing

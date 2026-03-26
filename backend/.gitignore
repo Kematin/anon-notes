@@ -7,3 +7,5 @@ logs
 *.key
 .pytest_cache
 poetry.lock
+.coverage
+htmlcov
