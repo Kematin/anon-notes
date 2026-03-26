@@ -5,7 +5,7 @@ from uuid import UUID
 from fastapi import HTTPException, status
 from loguru import logger
 
-from src.core.exceptions import ServiceError
+from src.core.exceptions import DatabaseError, ServiceError
 from src.crud.note import NoteCrud
 from src.enums.note import TimingForDestroy
 from src.models.note import Note
@@ -37,13 +37,13 @@ class NoteDestroyer:
             )
 
         update_schema = NoteUpdateSchema(
-            expires_at=self._set_expires_at(note.timing_for_destroy)
+            expires_at=self._get_expires_at(note.timing_for_destroy)
         )
         await self.crud.update(
             instance_id=note.id, update_data=update_schema, return_type=None
         )
 
-    def _set_expires_at(self, timing: TimingForDestroy) -> datetime:
+    def _get_expires_at(self, timing: TimingForDestroy) -> datetime:
         match timing:
             case TimingForDestroy.MINUTE:
                 minutes = 1
@@ -61,23 +61,28 @@ class NoteService:
     crud: Type[NoteCrud] = NoteCrud
 
     @classmethod
+    async def get_one_note_model(cls, id: UUID) -> Note:
+        try:
+            note = await cls.crud.get_one(id)
+        except DatabaseError:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Note with id {id} not found.",
+            )
+        return note
+
+    @classmethod
     async def create_note(cls, note_create_data: NoteCreateSchema) -> UUID:
         return await cls.crud.create(note_create_data, return_type="id_uuid")
 
     @classmethod
     async def get_one_note(cls, id: UUID) -> NoteSchema:
-        note = await cls.crud.get_one(id)
-        if note is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Note with id {id} not found.",
-            )
+        note = await cls.get_one_note_model(id)
         return_note_schema = NoteSchema(id=id, encrypted_content=note.encrypted_content)
-        await cls.destroy_note(note)
-
         return return_note_schema
 
     @classmethod
-    async def destroy_note(cls, note: Note) -> None:
+    async def destroy_note(cls, id: UUID) -> None:
+        note = await cls.get_one_note_model(id)
         destroyer = NoteDestroyer(note, cls.crud)
         await destroyer.destroy()

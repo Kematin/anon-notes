@@ -18,6 +18,16 @@ async def get_note(id: UUID):
     return await NoteService.get_one_note(id)
 
 
+@router.delete(
+    "/{id}",
+    summary="Удалить анонимную записку",
+    status_code=status.HTTP_200_OK,
+)
+async def delete_note(id: UUID):
+    await NoteService.destroy_note(id)
+    return {"message": "ok"}
+
+
 @router.post(
     "/",
     summary="Создать новую анонимную записку",
