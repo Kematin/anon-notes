@@ -45,3 +45,7 @@ class NoteUpdateSchema(BaseModel):
             raise ValueError(error_message)
 
         return self
+
+
+class NoteCreatedResponse(BaseModel):
+    created_id: UUID

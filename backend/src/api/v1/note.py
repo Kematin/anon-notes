@@ -2,7 +2,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, status
 
-from src.schemas.note import NoteCreateSchema, NoteSchema
+from src.schemas.note import NoteCreatedResponse, NoteCreateSchema, NoteSchema
 from src.services.note import NoteService
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
@@ -32,6 +32,7 @@ async def delete_note(id: UUID):
     "/",
     summary="Создать новую анонимную записку",
     status_code=status.HTTP_201_CREATED,
+    responses={status.HTTP_200_OK: {"model": NoteCreatedResponse}},
 )
 async def create_note(note_create_schema: NoteCreateSchema):
     return await NoteService.create_note(note_create_schema)

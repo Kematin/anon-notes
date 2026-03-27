@@ -23,7 +23,8 @@ class MiscSettings(BaseSettings):
 class DBSettings(BaseSettings):
     host: str = Field(alias="DB_HOST")
     port: str = Field(alias="DB_PORT")
-    name: str = Field(alias="DB_NAME")
+    name: str = Field(alias="DB_NAME", default="notes")
+    test_db_name: str = Field(alias="DB_TEST_NAME", default="test_db")
 
     model_config = get_model_config()
 
@@ -56,4 +57,4 @@ class Settings(BaseSettings):
     model_config = get_model_config()
 
 
-CONFIG = Settings()  # type: ignore[call-arg]
+CONFIG = Settings()
