@@ -1,4 +1,3 @@
-from .comments import Comment
-from .notes import Note
+from .note import Note
 
-models = [Note, Comment]
+models = [Note]
