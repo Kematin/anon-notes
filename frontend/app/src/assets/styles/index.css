@@ -1,8 +1,8 @@
 :root {
   --text: #ffffff;
   --bg: #16171D;
-  --bg-light: #1F2028;
-  --accent: #A63AF9;
+  --bg-light: #232323;
+  --accent: #E9C036;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
   --shadow:
@@ -25,4 +25,26 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+#app {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  background-image: url("../images/background-dark.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px);
+  scale: 1;
+  z-index: -1;
 }

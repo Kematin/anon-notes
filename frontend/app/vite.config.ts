@@ -47,7 +47,7 @@ const projectRoot = fileURLToPath(new URL("./", import.meta.url));
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, envDir, "");
   const allowedHost = env.API_HOST;
-  const devMode = env.VITE_DEV_MODE;
+  const devMode = env.VITE_DEV_MODE === "true" ? true : false;
 
   console.log("envDir: ", envDir);
   console.log("projectRoot: ", projectRoot);
@@ -74,7 +74,7 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/media/, "/media"),
           configure: (proxy) => {
-            proxy.on("proxyReq", (proxyReq, req) => {
+            proxy.on("proxyReq", (_proxyReq, req) => {
               console.log("Proxying media request:", {
                 path: req.url,
                 target: env.BASE_API_URL,

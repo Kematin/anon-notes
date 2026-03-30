@@ -22,7 +22,7 @@ logs_frontend:
 
 
 # ==========================================
-# Mark: Lint And Tests
+# Mark: Backend Lint And Tests
 # ==========================================
 
 backend_lint:
@@ -41,3 +41,20 @@ backend_coverage_html:
 
 backend_coverage:
 	cd backend && uv run pytest tests --cov=src --cov-report=term-missing
+
+# ==========================================
+# Mark: Frontend Lint And Tests
+# ==========================================
+
+FRONTEND_DIR = frontend/app
+
+front-types:
+	cd $(FRONTEND_DIR) && npx tsc --noEmit
+
+front-lint:
+	cd $(FRONTEND_DIR) && npm run lint
+
+front-build:
+	cd $(FRONTEND_DIR) && npm run build
+
+front-ci: front-types front-lint front-build
