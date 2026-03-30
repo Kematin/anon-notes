@@ -6,6 +6,10 @@ import ActionButton from "../components/ActionButton/ActionButton";
 import Image from "../components/Image/Image";
 
 function MainView() {
+  const createNote = () => {
+    console.log("send note");
+  };
+
   return (
     <section id="main">
       <Image />
@@ -14,7 +18,10 @@ function MainView() {
         <NoteTextField />
         <div className="note-options">
           <TimerSelect />
-          <ActionButton />
+          <ActionButton
+            label="Send"
+            action={createNote}
+          />
         </div>
       </div>
     </section>

@@ -1,0 +1,16 @@
+
+.actionButton {
+  font-size: var(--font-normal);
+  font-weight: normal;
+  background-color: var(--bg-light);
+  border: none;
+  border-radius: 8px;
+  color: var(--text);
+  padding: 10px 20px;
+  box-shadow: var(--shadow);
+}
+
+.actionButton:hover {
+  background-color: rgba(35, 35, 35, 0.7);
+  border-color: var(--accent-border);
+}

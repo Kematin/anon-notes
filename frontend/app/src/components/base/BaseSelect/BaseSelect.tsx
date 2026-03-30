@@ -1,13 +1,28 @@
-function BaseSelect() {
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
+interface BaseSelectProps {
+  options: SelectOption[];
+  name?: string;
+  onChange?: (value: string) => void;
+}
+
+function BaseSelect({ options, name = "select", onChange }: BaseSelectProps) {
   return (
     <select
-      name="select"
-      id=""
+      name={name}
+      onChange={(e) => onChange?.(e.target.value)}
     >
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
+      {options.map((option) => (
+        <option
+          key={option.value}
+          value={option.value}
+        >
+          {option.label}
+        </option>
+      ))}
     </select>
   );
 }

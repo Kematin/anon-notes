@@ -1,7 +1,7 @@
 function Image() {
   return (
     <img
-      src=""
+      src="some"
       alt="Image"
     />
   );
