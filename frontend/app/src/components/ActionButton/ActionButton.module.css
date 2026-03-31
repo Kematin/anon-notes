@@ -3,14 +3,16 @@
   font-size: var(--font-normal);
   font-weight: normal;
   background-color: var(--bg-light);
-  border: none;
+  border: 2px solid var(--accent);
+  color: var(--accent);
   border-radius: 8px;
-  color: var(--text);
   padding: 10px 20px;
   box-shadow: var(--shadow);
+  cursor: pointer;
 }
 
 .actionButton:hover {
+  border: 2px solid var(--accent);
   background-color: rgba(35, 35, 35, 0.7);
   border-color: var(--accent-border);
 }

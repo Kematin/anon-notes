@@ -5,9 +5,9 @@
 
 :root {
   --text: #ffffff;
-  --bg: #16171D;
+  --bg: #090a0e;
   --bg-light: #232323;
-  --accent: #E9C036;
+  --accent: #cda035;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(233, 192, 54, 0.7);
   --shadow:
@@ -34,6 +34,7 @@
 }
 
 * {
+  box-sizing: border-box;
   font-size: var(--font-normal);
   font-family: var(--sans);
 }
@@ -52,10 +53,10 @@ body {
 .app-bg {
   position: fixed;
   inset: 0;
-  background-image: url("../images/background-dark.jpg");
+  /* background-image: url("../images/background-dark.jpg");
   background-size: cover;
-  background-position: center;
-  filter: blur(10px);
+  background-position: center; */
+  /* filter: blur(10px); */
   scale: 1;
   z-index: -1;
 }
