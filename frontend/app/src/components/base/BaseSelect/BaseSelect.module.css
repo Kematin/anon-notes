@@ -19,6 +19,10 @@
   max-height: 53px;
   padding: 10px 16px;
 }
+.select.active .title {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
 
 
 .title {
@@ -57,7 +61,7 @@
 
 .content {
   position: absolute;
-  top: 44px;
+  top: 53px;
   left: 0;
   display: flex;
   flex-direction: column;

@@ -9,6 +9,7 @@
 }
 
 .writer-content {
+  position: relative;
   width: 70%;
   display: flex;
   flex-direction: column;
