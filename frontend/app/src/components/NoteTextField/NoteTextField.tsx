@@ -5,7 +5,7 @@ function NoteTextField() {
     <BaseTextArea
       id="note"
       name="note"
-      rows={8}
+      rows={10}
     />
   );
 }
