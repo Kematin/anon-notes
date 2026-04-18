@@ -46,7 +46,7 @@ const projectRoot = fileURLToPath(new URL("./", import.meta.url));
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, envDir, "");
-  const allowedHost = env.API_HOST;
+  const allowedHost = env.VITE_API_HOST;
   const devMode = env.VITE_DEV_MODE === "true" ? true : false;
 
   console.log("envDir: ", envDir);

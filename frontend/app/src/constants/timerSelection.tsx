@@ -1,14 +1,14 @@
-const TimerSelection = {
-  Momentum: 0,
-  Minute: 1,
-  Hour: 60,
-  Day: 60 * 24,
-  Week: 60 * 24 * 7,
+export const TimerSelection = {
+  Momentum: "momentum",
+  Minute: "minute",
+  Hour: "hour",
+  Day: "day",
+  Week: "week",
 };
 
 export const TimerSelectionOptions: {
   value: string;
-  timer: TimerSelection;
+  timer: TimerSelectionType;
   name: string;
 }[] = [
   {
@@ -38,4 +38,4 @@ export const TimerSelectionOptions: {
   },
 ];
 
-export type TimerSelection = (typeof TimerSelection)[keyof typeof TimerSelection];
+export type TimerSelectionType = (typeof TimerSelection)[keyof typeof TimerSelection];
