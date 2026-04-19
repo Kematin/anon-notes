@@ -34,7 +34,12 @@ class NoteService:
     @classmethod
     async def get_one_note(cls, id: UUID) -> NoteSchema:
         note = await cls.get_one_note_model(id)
-        return_note_schema = NoteSchema(id=id, encrypted_content=note.encrypted_content)
+        return_note_schema = NoteSchema(
+            id=id,
+            encrypted_content=note.encrypted_content,
+            timing_for_destroy=note.timing_for_destroy,
+            destroy_after_read=note.destroy_after_read,
+        )
         return return_note_schema
 
     @classmethod

@@ -13,6 +13,8 @@ class _BaseNoteSchema(BaseModel):
 
 class NoteSchema(_BaseNoteSchema):
     id: UUID
+    timing_for_destroy: Optional[TimingForDestroy] = None
+    destroy_after_read: bool = False
 
 
 class NoteCreateSchema(_BaseNoteSchema):
