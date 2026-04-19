@@ -62,7 +62,6 @@ export default defineConfig(({ mode }) => {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
-    assetsInclude: ["**/*.html"],
     server: {
       host: "0.0.0.0",
       port: 5173,
