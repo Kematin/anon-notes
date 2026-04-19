@@ -39,3 +39,11 @@ export const TimerSelectionOptions: {
 ];
 
 export type TimerSelectionType = (typeof TimerSelection)[keyof typeof TimerSelection];
+
+export const TimerDestroyLabel: Record<TimerSelectionType, string> = {
+  [TimerSelection.Momentum]: "after the page closed",
+  [TimerSelection.Minute]: "in 1 minute",
+  [TimerSelection.Hour]: "in 1 hour",
+  [TimerSelection.Day]: "in 1 day",
+  [TimerSelection.Week]: "in 1 week",
+};

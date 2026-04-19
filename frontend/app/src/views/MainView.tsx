@@ -3,7 +3,7 @@ import "@/assets/styles/MainView.css";
 import cat from "@/assets/images/cat.png";
 import gramophone from "@/assets/images/gramophone.png";
 
-import NoteTextFieldProps from "../components/NoteTextField/NoteTextField";
+import NoteTextField from "../components/NoteTextField/NoteTextField";
 import TimerSelect from "../components/TimerSelect/TimerSelect";
 import ActionButton from "../components/ActionButton/ActionButton";
 import Image from "../components/Image/Image";
@@ -50,9 +50,10 @@ function MainView() {
           wrapperStyles="gramophone-image-wrapper"
         />
         <div className="note-container">
-          <NoteTextFieldProps
+          <NoteTextField
             value={noteText}
             onChange={setNoteText}
+            onSubmit={noteText.length > 0 ? handleSendClick : undefined}
           />
         </div>
         <div className="note-options">
@@ -60,6 +61,7 @@ function MainView() {
           <ActionButton
             label="Send"
             action={handleSendClick}
+            disabled={noteText.length === 0}
           />
         </div>
       </div>

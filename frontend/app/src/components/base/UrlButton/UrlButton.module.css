@@ -1,0 +1,19 @@
+.urlButton {
+  font-size: var(--font-normal);
+  font-weight: normal;
+  background-color: transparent;
+  border: 3px solid var(--text);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+}
+
+.urlButton:hover {
+  transform: scale(1.05);
+  transition: all 0.1s ease-out;
+}

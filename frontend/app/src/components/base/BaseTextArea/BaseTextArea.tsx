@@ -9,6 +9,7 @@ interface TextAreaProps {
   disabled?: boolean;
   className?: string;
   onChange?: (value: string) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 function BaseTextArea({
@@ -17,6 +18,7 @@ function BaseTextArea({
   placeholder = "...",
   value,
   onChange,
+  onKeyDown,
   rows = 4,
   disabled,
   className = styles.textArea,
@@ -29,6 +31,7 @@ function BaseTextArea({
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange?.(e.target.value)}
+      onKeyDown={onKeyDown}
       rows={rows}
       disabled={disabled}
     />

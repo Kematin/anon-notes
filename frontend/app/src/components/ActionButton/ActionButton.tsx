@@ -5,14 +5,16 @@ import BaseButton from "../base/BaseButton/BaseButton";
 interface ActionButtonProps {
   label: string;
   action: () => void;
+  disabled?: boolean;
 }
 
-function ActionButton({ label, action }: ActionButtonProps) {
+function ActionButton({ label, action, disabled }: ActionButtonProps) {
   return (
     <BaseButton
       label={label}
       onClick={action}
       className={styles.actionButton}
+      disabled={disabled}
     />
   );
 }

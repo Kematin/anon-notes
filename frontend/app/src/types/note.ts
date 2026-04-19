@@ -10,6 +10,8 @@ export interface PostCreateNote {
 export interface GetEncryptedNote {
   id: UUID;
   encrypted_content: string;
+  destroy_after_read?: boolean;
+  timing_for_destroy?: TimerSelectionType;
 }
 
 export interface PostCreatedNoteId {

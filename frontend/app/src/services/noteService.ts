@@ -11,14 +11,17 @@ import { logger } from "@/utils/logger";
 
 class NoteService {
   private cryptoService: CryptoService;
+  private encryptedContentCache = new Map<UUID, string>();
 
   constructor(cryptoService: CryptoService) {
     this.cryptoService = cryptoService;
   }
 
-  private async getEncryptedNote(noteId: UUID): Promise<GetEncryptedNote> {
-    const encryptedNote = await apiClient.get<GetEncryptedNote>(API_ENDPOINTS.NOTES + `/${noteId}`);
-    return encryptedNote;
+  async fetchNote(noteId: UUID): Promise<TimerSelectionType> {
+    const { encrypted_content, destroy_after_read, timing_for_destroy } =
+      await apiClient.get<GetEncryptedNote>(API_ENDPOINTS.NOTES + `/${noteId}`);
+    this.encryptedContentCache.set(noteId, encrypted_content);
+    return destroy_after_read ? TimerSelection.Momentum : (timing_for_destroy ?? TimerSelection.Momentum);
   }
 
   async createNote(note: string, selectedTimer: TimerSelectionType, password: string): Promise<UUID> {
@@ -35,9 +38,15 @@ class NoteService {
   }
 
   async decryptNote(noteId: UUID, password: string): Promise<string> {
-    const encryptedNote = await this.getEncryptedNote(noteId);
-    const note = await this.cryptoService.decryptNote(encryptedNote.encrypted_content, password);
-    return note;
+    const cached = this.encryptedContentCache.get(noteId);
+    if (!cached) throw new Error("Note not fetched");
+    this.encryptedContentCache.delete(noteId);
+    return this.cryptoService.decryptNote(cached, password);
+  }
+
+  async deleteNote(noteId: UUID): Promise<void> {
+    await apiClient.delete(API_ENDPOINTS.NOTES + `/${noteId}`);
+    logger.info("Note deleted");
   }
 }
 
