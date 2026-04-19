@@ -10,16 +10,29 @@ stop_dev:
 remove_dev:
 	docker compose -f docker-compose.dev.yml down -v
 
-logs_backend:
+logs_backend_dev:
 	docker logs -f backend-notes-dev
 
-logs_frontend:
+logs_frontend_dev:
 	docker logs -f frontend-notes-dev
 
 # ==========================================
 # Mark: Prod
 # ==========================================
+start_prod:
+	docker compose -f docker-compose.prod.yml up -d --build
 
+stop_prod:
+	docker compose -f docker-compose.prod.yml down
+
+remove_prod:
+	docker compose -f docker-compose.prod.yml down -v
+
+logs_backend:
+	docker logs -f backend-notes-prod
+
+logs_nginx:
+	docker logs -f nginx-notes-prod
 
 # ==========================================
 # Mark: Backend Lint And Tests
@@ -48,13 +61,13 @@ backend_coverage:
 
 FRONTEND_DIR = frontend/app
 
-front-types:
+front_types:
 	cd $(FRONTEND_DIR) && npx tsc --noEmit
 
-front-lint:
+front_lint:
 	cd $(FRONTEND_DIR) && npm run lint
 
-front-build:
+front_build:
 	cd $(FRONTEND_DIR) && npm run build
 
-front-ci: front-types front-lint front-build
+front_ci: front-types front-lint front-build

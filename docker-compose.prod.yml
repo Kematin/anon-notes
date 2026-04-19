@@ -1,0 +1,70 @@
+services:
+  mongodb:
+    image: mongo:7
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - notes-prod
+    container_name: mongo-prod
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - ENV=only_main
+    container_name: backend-notes-prod
+    env_file:
+      - ./backend/.env.prod
+    environment:
+      - DB_HOST=mongodb
+    networks:
+      - notes-prod
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    command: uvicorn src.app:app --host 0.0.0.0 --port 8000 --loop uvloop --workers 2
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend-notes-prod
+    env_file:
+      - ./frontend/.env.prod
+    volumes:
+      - frontend_dist:/static
+    command: sh -c "cp -rf /app/dist/. /static/"
+    restart: "no"
+
+  nginx:
+    container_name: nginx-notes-prod
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/logs:/var/log/nginx
+      - ./backend/media:/backend/media:ro
+      - frontend_dist:/usr/share/nginx/html:ro
+    networks:
+      - notes-prod
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  frontend_dist:
+
+networks:
+  notes-prod:
+    driver: bridge
