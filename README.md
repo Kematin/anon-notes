@@ -1,8 +1,16 @@
 # Анонимные записки
 
-Сервис для создания анонимных записок с уничтожением после прочтения
+[![Static Badge](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org)
+[![Static Badge](https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Static Badge](https://img.shields.io/badge/mongodb-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com)
+[![Static Badge](https://img.shields.io/badge/pydantic-E92063?style=for-the-badge&logo=pydantic&logoColor=white)](https://docs.pydantic.dev)
+[![Static Badge](https://img.shields.io/badge/react-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
+[![Static Badge](https://img.shields.io/badge/typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Static Badge](https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
+[![Static Badge](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
+[![Static Badge](https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](https://nginx.org)
 
-Python, FastAPI, MongoDB, Beanie, Loguru
+Сервис для создания анонимных записок с уничтожением после прочтения
 
 ## Ссылки
 
@@ -10,10 +18,12 @@ Python, FastAPI, MongoDB, Beanie, Loguru
 ## Документация
 
 - [1. ТЗ](docs/technical_specifications.md)
-- [2. Дизайн]
-- [3. Makefile]
+- [2. Дизайн](docs/design.md)
+- [3. Makefile](docs/makefile.md)
 - Backend
 	- [Архитектура](docs/backend_architecture.md)
+- Frontend
+	- [Архитектура](docs/frontend_architecture.md)
 
 ## Основные возможности
 
