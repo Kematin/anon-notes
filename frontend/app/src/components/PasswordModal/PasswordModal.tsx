@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
 
 import styles from "./PasswordModal.module.css";
+import BaseModal from "@/components/base/BaseModal/BaseModal";
 import BaseInput from "@/components/base/BaseInput/BaseInput";
 import BaseButton from "@/components/base/BaseButton/BaseButton";
 
@@ -24,53 +24,43 @@ function PasswordModal({ description, onConfirm, onCancel }: PasswordModalProps)
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [password, onConfirm, onCancel]);
 
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) onCancel();
-  };
+  return (
+    <BaseModal onClose={onCancel}>
+      <h2 className={styles.title}>Enter password</h2>
+      <p className={styles.description}>{description}</p>
 
-  return createPortal(
-    <div
-      className={styles.overlay}
-      onClick={handleOverlayClick}
-    >
-      <div className={styles.modal}>
-        <h2 className={styles.title}>Enter password</h2>
-        <p className={styles.description}>{description}</p>
-
-        <div className={styles.inputWrapper}>
-          <label
-            htmlFor="note-password"
-            className={styles.label}
-          >
-            Password
-          </label>
-          <BaseInput
-            name="password"
-            id="note-password"
-            type="password"
-            placeholder="Your password..."
-            value={password}
-            onChange={setPassword}
-            autoFocus
-          />
-        </div>
-
-        <div className={styles.actions}>
-          <BaseButton
-            label="Cancel"
-            className={styles.cancelButton}
-            onClick={onCancel}
-          />
-          <BaseButton
-            label="Encrypt & Send"
-            className={styles.confirmButton}
-            onClick={() => onConfirm(password)}
-            disabled={password.length === 0}
-          />
-        </div>
+      <div className={styles.inputWrapper}>
+        <label
+          htmlFor="note-password"
+          className={styles.label}
+        >
+          Password
+        </label>
+        <BaseInput
+          name="password"
+          id="note-password"
+          type="password"
+          placeholder="Your password..."
+          value={password}
+          onChange={setPassword}
+          autoFocus
+        />
       </div>
-    </div>,
-    document.body,
+
+      <div className={styles.actions}>
+        <BaseButton
+          label="Cancel"
+          className={styles.cancelButton}
+          onClick={onCancel}
+        />
+        <BaseButton
+          label="Encrypt & Send"
+          className={styles.confirmButton}
+          onClick={() => onConfirm(password)}
+          disabled={password.length === 0}
+        />
+      </div>
+    </BaseModal>
   );
 }
 

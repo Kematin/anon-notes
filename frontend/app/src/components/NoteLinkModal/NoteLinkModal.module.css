@@ -13,43 +13,58 @@
   line-height: 1.4;
 }
 
-.inputWrapper {
+.linkRow {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  align-items: stretch;
 }
 
-.label {
-  font-size: var(--font-normal);
+.link {
+  flex: 1;
+  background-color: var(--bg);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 14px;
   color: var(--text);
-  opacity: 0.75;
+  font-size: var(--font-normal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: all;
+}
+
+.copyButton {
+  font-size: var(--font-normal);
+  font-weight: normal;
+  background-color: var(--bg-light);
+  border: 2px solid var(--accent);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 10px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s ease-out, border-color 0.15s ease-out;
+}
+
+.copyButton:hover {
+  border-color: var(--accent-border);
+}
+
+.copyButton:active {
+  transform: scale(0.95);
+}
+
+.copyButtonCopied {
+  composes: copyButton;
+  opacity: 0.6;
 }
 
 .actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 4px;
+  justify-content: space-between;
 }
 
-.cancelButton {
-  font-size: var(--font-normal);
-  font-weight: normal;
-  background-color: transparent;
-  border: 2px solid transparent;
-  color: var(--text);
-  opacity: 0.55;
-  border-radius: 8px;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: opacity 0.15s ease-out;
-}
-
-.cancelButton:hover {
-  opacity: 1;
-}
-
-.confirmButton {
+.closeButton {
   font-size: var(--font-normal);
   font-weight: normal;
   background-color: var(--bg-light);
@@ -62,18 +77,11 @@
   transition: transform 0.15s ease-out, background-color 0.15s ease-out;
 }
 
-.confirmButton:hover {
+.closeButton:hover {
   background-color: rgba(35, 35, 35, 0.7);
   border-color: var(--accent-border);
 }
 
-.confirmButton:active {
+.closeButton:active {
   transform: scale(0.95);
-  transition: all 0.1s ease-out;
-}
-
-.confirmButton:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: none;
 }
