@@ -1,0 +1,32 @@
+/* BaseTextArea.module.css */
+.textArea {
+  width: 100%;
+  background-color: var(--bg-light);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--text);
+  font-size: var(--font-normal);
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-out;
+}
+
+.textArea::placeholder {
+  color: var(--text);
+  opacity: 0.4;
+}
+
+.textArea:hover {
+  background-color: #1c1c1d;
+}
+
+.textArea:focus {
+  border-color: var(--accent-border);
+  background-color: #1c1c1d;
+}
+
+.textArea:disabled {
+  cursor: default;
+}

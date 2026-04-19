@@ -1,0 +1,24 @@
+
+.actionButton {
+  font-size: var(--font-normal);
+  font-weight: normal;
+  background-color: var(--bg-light);
+  border: 2px solid var(--accent);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out; 
+}
+
+.actionButton:hover {
+  border: 2px solid var(--accent);
+  background-color: rgba(35, 35, 35, 0.7);
+  border-color: var(--accent-border);
+}
+
+.actionButton:active {
+  transform: scale(0.95);
+  transition: all 0.1s ease-out;
+}

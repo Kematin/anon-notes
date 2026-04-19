@@ -1,0 +1,62 @@
+@font-face {
+  font-family: "Antiqua";
+  src: url("../fonts/ItalianOldAntiqua.ttf") format("truetype");
+}
+
+:root {
+  --text: #ffffff;
+  --bg: #090a0e;
+  --bg-light: #232323;
+  --accent: #cda035;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-border: rgba(233, 192, 54, 0.7);
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --sans: "IBM Plex Serif", system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: "IBM Plex Serif", system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: "IBM Plex Serif", ui-monospace, Consolas, monospace;
+
+  --font-big: 28px;
+  --font-normal: 20px;
+
+  color: var(--text);
+  background: var(--bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  font-size: var(--font-normal);
+  font-family: var(--sans);
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+#app {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  /* background-image: url("../images/background-dark.jpg");
+  background-size: cover;
+  background-position: center; */
+  /* filter: blur(10px); */
+  scale: 1;
+  z-index: -1;
+}

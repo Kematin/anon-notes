@@ -1,25 +1,22 @@
-FROM python:3.12
+FROM python:3.13.2-slim
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+COPY --from=ghcr.io/astral-sh/uv:0.6.16 /uv /uvx /bin/
 
-RUN apt-get update && apt-get install -y --no-install-recommends gcc curl && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN curl -sSL https://install.python-poetry.org | python3 -
+WORKDIR  /app
 
-ENV PATH="/root/.local/bin:$PATH"
+COPY pyproject.toml uv.lock /app/
 
-WORKDIR /app
+ARG ENV
 
-COPY pyproject.toml /app
-RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-root
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv
 
-COPY secret.key /app
+RUN if [ "$ENV" = "only_main" ]; then \
+      uv sync --no-dev --no-cache --compile-bytecode --frozen; \
+    else \
+      uv sync --all-groups --no-cache --compile-bytecode --frozen; \
+    fi
 
-WORKDIR /app/src
 
-COPY src /app/src/
+COPY . /app
 
-EXPOSE 8000
-
-CMD ["python", "app.py"]
+ENV PATH="/opt/venv/bin:$PATH"
