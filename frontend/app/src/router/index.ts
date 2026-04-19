@@ -15,4 +15,11 @@ export const router = createBrowserRouter([
       return { Component };
     },
   },
+  {
+    path: "*",
+    lazy: async () => {
+      const { default: Component } = await import("@/views/Undefined");
+      return { Component };
+    },
+  },
 ]);
