@@ -48,7 +48,7 @@ services:
     container_name: nginx-notes-prod
     image: nginx:alpine
     ports:
-      - "80:80"
+      - "5173:80"
     volumes:
       - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/logs:/var/log/nginx

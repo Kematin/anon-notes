@@ -32,7 +32,7 @@ class NoteService {
       ? { encrypted_content: encryptedNote, destroy_after_read: true }
       : { encrypted_content: encryptedNote, timing_for_destroy: selectedTimer };
 
-    const { created_id } = await apiClient.post<PostCreatedNoteId>(API_ENDPOINTS.NOTES, noteCreateData);
+    const { created_id } = await apiClient.post<PostCreatedNoteId>(API_ENDPOINTS.NOTES + "/", noteCreateData);
     logger.info("Send note to server");
     return created_id;
   }

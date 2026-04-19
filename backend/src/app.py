@@ -21,7 +21,7 @@ async def lifespan(app: FastAPI):
     logger.info("Close app")
 
 
-app = FastAPI(lifespan=lifespan, title="Notes Backend")
+app = FastAPI(lifespan=lifespan, title="Notes Backend", redirect_slashes=False)
 app.include_router(api_v1_router)
 
 app.add_middleware(

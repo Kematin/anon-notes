@@ -70,4 +70,4 @@ front_lint:
 front_build:
 	cd $(FRONTEND_DIR) && npm run build
 
-front_ci: front-types front-lint front-build
+front_ci: front_types front_lint front_build
